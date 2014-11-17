@@ -9,4 +9,7 @@ class SolanoGenerator < Rails::Generators::Base
     template 'solano.yml.erb', 'solano.yml'
   end
 
+  def create_deploy_task
+    template 'deploy.rake.erb', 'lib/tasks/solano/deploy.rake'
+  end
 end

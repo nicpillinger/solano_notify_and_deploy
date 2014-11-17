@@ -1,5 +1,8 @@
 ---
 :hooks:
-  <%- if deploy_hook_url.nil? %>  :post_build: bundle exec rake solano:notify[<%= hipchat_api_key %>, <%= hipchat_room_id %>]
-  <%- else %> :post_build: bundle exec rake solano:notify_and_deploy[<%= hipchat_api_key %>, <%= hipchat_room_id %>, <%= deploy_hook_url %>]
+  :worker_setup: RAILS_ENV=test bundle exec rake db:test:prepare
+  <%- if deploy_hook_url.nil? %>
+  :post_build: bundle exec rake solano:notify
+  <%- else %>
+  :post_build: bundle exec rake solano:notify_and_deploy
   <%- end %>
