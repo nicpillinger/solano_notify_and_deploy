@@ -7,9 +7,8 @@ namespace :solano do
 
   desc 'notify hipchat on build events, deploy on successful build'
   task :notify_and_deploy, :hipchat_api_key, :hipchat_room_id, :deploy_hook_url do |t, args|
-
     notify_build_status args[:hipchat_api_key], args[:hipchat_room_id]
-    return unless build_passed?
+    next unless build_passed?
 
     succeeded = false
     message = ""

@@ -6,7 +6,7 @@ module SolanoNotifyAndDeploy
     railtie_name :solano_notify_and_deploy
 
     rake_tasks do
-      load "tasks/solano.rake"
+      load File.join(File.dirname(__FILE__), "tasks/solano.rake")
     end
 
     generators do
