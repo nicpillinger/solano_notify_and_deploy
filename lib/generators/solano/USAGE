@@ -1,0 +1,9 @@
+Description:
+    Creates a solano.yml file which sends hipchat notifications on build success/failure
+    Will also trigger a deploy on successful build if a deploy hook url is provided
+
+Example:
+    rails generate solano HIP15421CHAT2736API3436KEY, 123456, http://my.deploy.hook.on.c66/bam!
+
+    This will create:
+        a .solano.yml deploy file which notifies hipchat and build events and posts to http://my.deploy.hook.on.c66/bam! on a successful build
