@@ -6,7 +6,7 @@ class SolanoGenerator < Rails::Generators::Base
   argument :deploy_hook_url, type: :string, required: false
 
   def create_solano_yml
-    template 'solano.yml.erb', '.solano.yml'
+    template 'solano.yml.erb', 'solano.yml'
   end
 
 end
