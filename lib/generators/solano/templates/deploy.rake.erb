@@ -1,17 +1,27 @@
 namespace :solano do
-  desc 'notify hipchat on build events'
-  task :notify do
-    notify_build_status
+
+  namespace :notify do
+
+    desc 'build start - notify hipchat'
+    task :build_start do
+      notify 'CI starting', 'green'
+    end
+
+    desc 'build complete - notify hipchat'
+    task :build_complete do
+      notify_build_status
+    end
+
   end
 
-  desc 'notify hipchat on build events, deploy on successful build'
+  desc 'build complete - notify hipchat and deploy on successful build'
   task :notify_and_deploy do
     notify_build_status "- will not deploy, to deploy manually try rake solano:deploy"
     next unless build_passed?
     deploy
   end
 
-  desc 'run the deploy (notify on failure)'
+  desc 'run the deploy (notify hipchat on failure)'
   task :deploy do
     deploy
   end
@@ -48,8 +58,8 @@ namespace :solano do
     end
 
     def notify_build_status(failed_message = '')
-      notify hipchat_api_key, hipchat_room_id, "Build succeeded", "green" and return if build_passed?
-      notify hipchat_api_key, hipchat_room_id, "Build failed #{failed_message}", "yellow"
+      notify "CI succeeded", "green" and return if build_passed?
+      notify "CI failed #{failed_message}", "yellow"
     end
 
     def notify(message, colour)

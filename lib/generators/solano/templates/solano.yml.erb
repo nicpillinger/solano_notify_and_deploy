@@ -1,8 +1,9 @@
 ---
 :hooks:
   :worker_setup: RAILS_ENV=test bundle exec rake db:test:prepare
+  :pre_setup: bundle exec rake solano:notify:build_start
   <%- if deploy_hook_url.nil? %>
-  :post_build: bundle exec rake solano:notify
+  :post_build: bundle exec rake solano:notify:build_complete
   <%- else %>
   :post_build: bundle exec rake solano:notify_and_deploy
   <%- end %>
