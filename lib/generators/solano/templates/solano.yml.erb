@@ -1,7 +1,7 @@
 ---
 :hooks:
   :worker_setup: RAILS_ENV=test bundle exec rake db:test:prepare
-  :pre_setup: bundle exec rake solano:notify:build_start
+  #:pre_setup: bundle exec rake solano:notify:build_start # uncomment this line to get notified at the start of the ci run
   <%- if deploy_hook_url.nil? %>
   :post_build: bundle exec rake solano:notify:build_complete
   <%- else %>
