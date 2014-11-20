@@ -1,0 +1,40 @@
+module NotificationAndDeployment
+  def tddium?
+    ENV['TDDIUM'].present?
+  end
+
+  def passed?
+    ENV['TDDIUM_BUILD_STATUS'] == 'passed'
+  end
+
+  def build_passed?
+    tddium? && passed?
+  end
+
+  def deploy
+    succeeded = false
+    message = ""
+
+    begin
+      succeeded = system('curl -X POST -d "" <%= deploy_hook_url %>')
+    rescue Exception => e
+      succeeded = false
+      message = e.message
+    end
+
+    unless succeeded
+      notify "Deploy failed: #{message}", 'red'
+      raise "deployment failed"
+    end
+  end
+
+  def notify_build_status
+    notify "CI succeeded", "green" and return if build_passed?
+    notify "CI failed", "yellow"
+  end
+
+  def notify(message, colour)
+    client = HipChat::Client.new('<%= hipchat_api_key %>')
+    client['<%= hipchat_room_id %>'].send('Solano CI', message, :color => colour)
+  end
+end
